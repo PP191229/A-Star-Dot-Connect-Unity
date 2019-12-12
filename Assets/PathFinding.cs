@@ -8,7 +8,7 @@ public class PathFinding : MonoBehaviour {
 
     public Transform dotStart, dotTarget;
 
-
+    //Find a path between dots\\
     void Update()
     {
         FindPath(dotStart.position, dotTarget.position);
@@ -16,17 +16,17 @@ public class PathFinding : MonoBehaviour {
 
     void FindPath(Vector3 startPos, Vector3 targetPos)
     {
-        //Get the position of the start node and the target node
+        //Get the position of the start node and the target node\\
         Node startNode = grid.NodeFromWorldPoint(startPos);
         Node targetNode = grid.NodeFromWorldPoint(targetPos);
 
-        //Create a list for nodes that are open and could be used and a closed list to add the nodes that are bein used
+        //Create a list for nodes that are open and could be used and a closed list to add the nodes that are bein used\\
         List<Node> openSet = new List<Node>();
         HashSet<Node> closedSet = new HashSet<Node>();
-        // Add the first node
+        // Add the first node\\
         openSet.Add(startNode);
 
-        //
+        //Add and remove nodes from the sets depending on their cost\\
         while(openSet.Count > 0)
         {
             Node currentNode = openSet[0];
@@ -40,13 +40,13 @@ public class PathFinding : MonoBehaviour {
 
             openSet.Remove(currentNode);
             closedSet.Add(currentNode);
-
+            //when arriving at he target node retrace the path\\
             if(currentNode == targetNode)
             {
                 RetracePath(startNode, targetNode);
                 return;
             }
-
+            //if the neighbour is not walkable or in the close set ignore it\\
             foreach(Node neighbour in grid.GetNeighbours(currentNode))
             {
                 if(!neighbour.walkable || closedSet.Contains(neighbour))
@@ -55,7 +55,7 @@ public class PathFinding : MonoBehaviour {
                 }
 
                 bool isOverlaping = false;
-
+                //ignore the other paths\\
                 foreach (List<Node> otherpath in grid.paths)
                 {
                     if(otherpath.Contains(neighbour))
@@ -84,7 +84,7 @@ public class PathFinding : MonoBehaviour {
         }
 
     }
-
+    //Reverse the path when added to the list of paths\\
     void RetracePath(Node startNode, Node endNode)
     {
         List<Node> path = new List<Node>();
@@ -99,7 +99,7 @@ public class PathFinding : MonoBehaviour {
 
         grid.paths.Add(path);
     }
-
+    //Get the distance between nodes\\
     int GetDistance(Node nodeA, Node nodeB)
     {
         int distX = Mathf.Abs(nodeA.gridX - nodeB.gridX);

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour {
 
-    public Transform Dot, Dot1, Dot2;
+    public Color[] colors;
     public LayerMask unwalkableMask;
     public Vector2 gridWorldSize;
     public float nodeRadius;
@@ -15,6 +15,10 @@ public class Grid : MonoBehaviour {
     float nodeDiameter;
     int gridSizeX, gridSizeY;
 
+    //Initialize by doubling the node diameter\\
+    //rounding the grid sizes\\
+    //creating a list of paths\\
+    //create the Grid\\
     void Start()
     {
         nodeDiameter = nodeRadius * 2;
@@ -24,12 +28,12 @@ public class Grid : MonoBehaviour {
         CreateGrid();
 
     }
-
+    //Clear the paths\\
     void Update()
     {
         paths.Clear();
     }
-
+    //Create the grid with the nodes using the node diameter and the radious\\
     void CreateGrid()
     {
         grid = new Node[gridSizeX, gridSizeY];
@@ -45,7 +49,7 @@ public class Grid : MonoBehaviour {
             }
         }
     }
-
+    //Get the list of neighouring nodes while ignoring the nodes in the corners\\
     public List<Node> GetNeighbours(Node node)
     {
         List<Node> neighbours = new List<Node>();
@@ -71,7 +75,7 @@ public class Grid : MonoBehaviour {
 
         return neighbours;
     }
-
+    //Get the world position of the nodes\\
     public Node NodeFromWorldPoint(Vector3 worldPosition)
     {
         float percentX = (worldPosition.x + gridWorldSize.x / 2) / gridWorldSize.x;
@@ -84,34 +88,25 @@ public class Grid : MonoBehaviour {
         return grid[x, y];
 
     }
-
+    //Draw the grid and the nodes inside the paths\\
     void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
 
         if (grid != null)
         {
-            Node dotNode = NodeFromWorldPoint(Dot.position);
-            Node dot1Node = NodeFromWorldPoint(Dot1.position);
-            Node dot2Node = NodeFromWorldPoint(Dot2.position);
-
-            Debug.Log(paths.Count);
-
 
             foreach (Node n in grid)
             {
                 Gizmos.color = (n.walkable) ? Color.white : Color.red;
-                if (dotNode == n)
-                {
-                    Gizmos.color = Color.blue;
-                }
 
                 foreach (List<Node> path in paths)
                 {
-                    if(path.Contains(n))
+                   if(path.Contains(n))
                     {
-                        Gizmos.color = Color.black;
+                        Gizmos.color = Color.blue;
                     }
+
                 }
 
                 Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .1f));

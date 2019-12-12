@@ -13,6 +13,7 @@ public class Node {
     public int hCost;
     public Node parent;
 
+    //creating the variables for the constructor node\\
     public Node(bool _walkable, Vector3 _worldPos, int _gridX, int _gridY)
     {
         walkable = _walkable;
@@ -20,7 +21,7 @@ public class Node {
         gridX = _gridX;
         gridY = _gridY;
     }
-
+    //calculating the f cost for the A* pathfinding\\
     public int fCost
     {
         get
