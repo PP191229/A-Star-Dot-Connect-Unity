@@ -69,7 +69,7 @@ public class PathFinding : MonoBehaviour {
                     continue;
                 }
 
-
+                //Check if the cost of the neighbour is lower than the current node, if it is add it to the set\\
                 int NewMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour);
                 if(NewMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
                 {

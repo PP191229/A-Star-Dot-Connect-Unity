@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour {
 
-    public Color[] colors;
     public LayerMask unwalkableMask;
     public Vector2 gridWorldSize;
     public float nodeRadius;
