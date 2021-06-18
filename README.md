@@ -1,1 +1,1 @@
-# Comp-702-Project-2
+# A Star Pathfinding in Unity
